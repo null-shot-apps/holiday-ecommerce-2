@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Build anything from a chat",
-  description: "Turn chats into apps. Prompt. Ship. Repeat.",
+  title: "Christmas Shop - Holiday Gifts & Crypto Payments",
+  description: "Shop Christmas gifts with crypto payments, flash sales, and smart recommendations. Bitcoin & Ethereum accepted!",
 };
 
 export default function RootLayout({
@@ -32,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -1,84 +1,132 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-const slogans = [
-  "Turn chats into apps",
-  "Prompt. Ship. Repeat.",
-  "Build anything from a chat",
-  "Ideas → Apps, instantly",
-  "From zero to MVP in minutes",
-  "Your cofounder in the command line",
-  "Draft, iterate, deploy",
-  "Ship faster than you can type",
-  "Design in text, deliver in code",
-  "Dream it. Prompt it. Run it.",
-  "Chat-native app building",
-  "From prompt to product",
-  "One prompt, infinite apps",
-  "Stop scaffolding. Start shipping.",
-  "Prototype at the speed of thought",
-  "Make conversations executable"
-];
-
-export default function Landing() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+export default function Home() {
+  const [user, setUser] = useState<any>(null);
+  const [flashSale, setFlashSale] = useState<any>(null);
+  const [notification, setNotification] = useState<string>('');
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % slogans.length);
-        setIsVisible(true);
-      }, 400);
-    }, 2800);
+    // Auto-login check
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
 
-    return () => clearInterval(interval);
+    // Flash sale timer
+    const saleEnd = new Date();
+    saleEnd.setHours(saleEnd.getHours() + 2);
+    setFlashSale({ endTime: saleEnd, discount: 30 });
+
+    // Simulated push notification
+    setTimeout(() => {
+      setNotification('🎄 Flash Sale: 30% off all gifts!');
+      setTimeout(() => setNotification(''), 5000);
+    }, 2000);
   }, []);
 
+  const products = [
+    { id: 1, name: 'Christmas Tree Ornament Set', price: 29.99, category: 'adults', image: '🎄' },
+    { id: 2, name: 'Kids Toy Bundle', price: 49.99, category: 'kids', image: '🎁' },
+    { id: 3, name: 'Holiday Candle Collection', price: 34.99, category: 'adults', image: '🕯️' },
+    { id: 4, name: 'Santa Plush Toy', price: 19.99, category: 'kids', image: '🎅' },
+  ];
+
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-black text-white">
-      {/* Enhanced animated aurora background layers */}
-      <div className="absolute inset-0 bg-aurora-layer-1" />
-      <div className="absolute inset-0 bg-aurora-layer-2" />
-      <div className="absolute inset-0 bg-aurora-layer-3" />
-      
-      {/* Floating particles overlay */}
-      <div className="absolute inset-0 bg-particles" />
-      
-      {/* Main content - centered */}
-      <main className="relative z-10 h-full flex flex-col items-center justify-center px-6">
-        <h1 className="text-center text-[clamp(28px,6vw,64px)] font-medium tracking-tight mb-4">
-          Turn Chats into Apps
-        </h1>
-        
-        {/* Rotating slogans */}
-        <div className="mt-4 h-8 md:h-10 overflow-hidden flex items-center justify-center">
-          <span
-            className={`inline-block text-center text-[clamp(18px,3vw,32px)] font-light transition-all duration-[400ms] ease-in-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-            }`}
-          >
-            {slogans[currentIndex]}
-          </span>
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-green-50">
+      {/* Notification Banner */}
+      {notification && (
+        <div className="fixed top-0 left-0 right-0 bg-red-600 text-white py-3 px-4 text-center z-50 animate-slide-down">
+          {notification}
         </div>
+      )}
+
+      {/* Header */}
+      <header className="bg-white shadow-sm sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-red-600">🎄 Christmas Shop</h1>
+            <div className="flex items-center gap-4">
+              {user ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm sm:text-base">Hi, {user.name}!</span>
+                  <button className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base hover:bg-red-700">
+                    Cart (0)
+                  </button>
+                </div>
+              ) : (
+                <Link href="/login" className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base hover:bg-red-700">
+                  Login
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Flash Sale Banner */}
+      {flashSale && (
+        <div className="bg-gradient-to-r from-red-600 to-green-600 text-white py-6 px-4 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">⚡ FLASH SALE - {flashSale.discount}% OFF!</h2>
+          <p className="text-sm sm:text-base">Ends in 2 hours - Don&apos;t miss out!</p>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Gift Recommendations */}
+        <section className="mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">🎁 Recommended Gifts</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <div key={product.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
+                <div className="text-6xl sm:text-7xl text-center py-8 bg-gradient-to-br from-red-100 to-green-100">
+                  {product.image}
+                </div>
+                <div className="p-4 sm:p-6">
+                  <h3 className="font-semibold text-base sm:text-lg mb-2 text-gray-800">{product.name}</h3>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-xl sm:text-2xl font-bold text-red-600">${product.price}</span>
+                    <span className="text-xs sm:text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      {product.category === 'kids' ? '👶 Kids' : '👨 Adults'}
+                    </span>
+                  </div>
+                  <Link 
+                    href={`/checkout/${product.id}`}
+                    className="block w-full bg-green-600 text-white py-2 sm:py-3 rounded-lg text-center font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base"
+                  >
+                    Quick Checkout
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Crypto Payment Info */}
+        <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl p-6 sm:p-8 mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">💰 Pay with Crypto</h2>
+          <p className="text-base sm:text-lg mb-4">We accept Bitcoin & Ethereum with real-time exchange rates!</p>
+          <div className="flex flex-wrap gap-4">
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3 sm:py-4">
+              <div className="text-xs sm:text-sm opacity-80">Bitcoin (BTC)</div>
+              <div className="text-lg sm:text-xl font-bold">$45,230</div>
+            </div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3 sm:py-4">
+              <div className="text-xs sm:text-sm opacity-80">Ethereum (ETH)</div>
+              <div className="text-lg sm:text-xl font-bold">$2,340</div>
+            </div>
+          </div>
+        </section>
       </main>
-      
-      {/* Start Prompting arrow pointing left - bottom left */}
-      <div className="absolute left-6 md:left-8 bottom-[5%] z-20 flex items-center gap-3 arrow-point-left">
-        <div className="flex items-center gap-2 text-white/80 font-medium text-sm md:text-base">
-          <svg 
-            className="w-5 h-5 md:w-6 md:h-6 animate-bounce-horizontal" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span>Start prompting</span>
-        </div>
-      </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-8 px-4 text-center">
+        <p className="text-sm sm:text-base">🎅 Merry Christmas! © 2024 Christmas Shop</p>
+      </footer>
     </div>
   );
 }
+

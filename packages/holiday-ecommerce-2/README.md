@@ -1,66 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) and configured for Cloudflare Pages deployment.
+# 🎄 Christmas E-commerce App
 
-## Getting Started
+A modern, feature-rich Christmas-themed e-commerce platform with advanced payment options and smart recommendations.
 
-First, run the development server:
+## ✨ Features
+
+### 🔐 User Authentication
+- **Social Login**: Google & Facebook OAuth integration
+- **Auto-Login**: Automatic authentication for returning users
+- **Guest Checkout**: Shop without creating an account
+
+### 💳 Payment Options
+- **Traditional Payments**: Credit/Debit cards
+- **Crypto Payments**: Bitcoin (BTC) & Ethereum (ETH)
+- **Real-Time Exchange Rates**: Live crypto pricing updated every 3 seconds
+- **Coinbase Commerce Integration**: Secure crypto payment processing
+- **One-Click Checkout**: Fast, streamlined purchase flow
+
+### 🎁 Smart Gift Recommendations
+- **Browsing History Analysis**: Personalized suggestions based on viewing patterns
+- **Price Range Filtering**: Find gifts within your budget
+- **Recipient Type Targeting**: Separate recommendations for kids and adults
+- **Trending Gifts**: Popular items updated in real-time
+
+### ⚡ Flash Sales
+- **Time-Limited Offers**: Countdown timers for urgency
+- **Dynamic Discounts**: Up to 30% off during flash sales
+- **Real-Time Updates**: Instant price changes
+
+### 🔔 Real-Time Notifications
+- **Push Notifications**: Browser notifications for sales and promotions
+- **Email Notifications**: Order confirmations and updates
+- **In-App Alerts**: Live notification banners
+
+### 📱 Mobile Optimization
+- **Responsive Design**: Perfect on all screen sizes
+- **Touch-Friendly**: Optimized for mobile interactions
+- **Fast Loading**: Optimized performance for mobile networks
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS 4
+- **Deployment**: Cloudflare (OpenNext)
+- **Language**: TypeScript
+- **Payment Processing**: Coinbase Commerce / BTCPay Server
+
+## 📦 API Endpoints
+
+### `/api/crypto-rates`
+Get real-time cryptocurrency exchange rates
+```json
+{
+  "success": true,
+  "rates": {
+    "BTC": { "usd": "45230.00", "symbol": "₿" },
+    "ETH": { "usd": "2340.00", "symbol": "Ξ" }
+  }
+}
+```
+
+### `/api/recommendations`
+Get personalized gift recommendations
+```json
+{
+  "browsingHistory": [...],
+  "priceRange": [20, 50],
+  "recipientType": "kids"
+}
+```
+
+### `/api/notifications`
+Send and retrieve user notifications
+
+## 🎨 Features Breakdown
+
+### User Login Automation
+- Social OAuth providers (Google, Facebook)
+- LocalStorage-based session persistence
+- Automatic re-authentication on return visits
+
+### Crypto Payment System
+- Live exchange rate updates (3-second intervals)
+- Support for Bitcoin (BTC) and Ethereum (ETH)
+- Coinbase Commerce integration ready
+- Real-time price conversion display
+
+### Gift Recommendation Engine
+- Analyzes browsing patterns
+- Filters by price range ($0-$100+)
+- Categorizes by recipient (kids/adults)
+- Scoring algorithm for relevance
+
+### Flash Sales System
+- Countdown timers
+- Dynamic discount application
+- Promotional banners
+- Urgency messaging
+
+### Notification System
+- Browser push notifications
+- Email notifications (SendGrid/AWS SES ready)
+- In-app notification banners
+- Real-time delivery
+
+## 🛠️ Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Run development server
 pnpm dev
-# or
-bun dev
+
+# Build for production
+pnpm build
+
+# Deploy to Cloudflare
+pnpm deploy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+# Coinbase Commerce (for crypto payments)
+NEXT_PUBLIC_COINBASE_COMMERCE_API_KEY=your_api_key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Social Auth
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+NEXT_PUBLIC_FACEBOOK_APP_ID=your_facebook_app_id
 
-## Webview & CORS Configuration
-
-This template is configured with **universal CORS and iframe embedding** for maximum compatibility:
-
-### 🌐 Simple Universal Access
-- **All Routes & Assets**: Wildcard CORS allowing any origin, method, and headers
-- **No File Type Restrictions**: Works with any file format your project uses
-- **Iframe Ready**: `Content-Security-Policy: frame-ancestors *` allows embedding in any iframe
-- **Webview Ready**: Configured for embedding in any container or webview
-- **Development Friendly**: Works across any port, domain, or subdomain
-
-### 🚀 Works Everywhere
-- Any localhost port (`localhost:3000`, `localhost:8080`, etc.)
-- Any subdomain pattern (`*.localhost`, `*.nullshot.dev`, etc.)
-- Webview containers (Electron, VSCode, browser iframes)
-- Cross-origin development scenarios
-- CDN and edge deployments
-
-### Environment Variables
-
-Create a `.env.local` file for local development:
-
-```bash
-# Next.js Environment (for Cloudflare deployment)
-NEXTJS_ENV=development
-
-# Optional: Override CORS settings if needed
-# CORS_ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
+# Email Notifications
+SENDGRID_API_KEY=your_sendgrid_key
 ```
 
-## Learn More
+## 📱 Mobile Optimization
 
-To learn more about Next.js, take a look at the following resources:
+- Responsive grid layouts (1-4 columns based on screen size)
+- Touch-optimized buttons and interactions
+- Mobile-first design approach
+- Optimized images and assets
+- Fast page transitions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Future Enhancements
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [ ] Wishlist functionality
+- [ ] Order tracking
+- [ ] Product reviews and ratings
+- [ ] Advanced search and filters
+- [ ] Multi-currency support
+- [ ] Loyalty rewards program
+- [ ] Gift wrapping options
+- [ ] Delivery scheduling
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+MIT License - feel free to use this for your own projects!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+🎅 **Merry Christmas and Happy Shopping!** 🎄
+
